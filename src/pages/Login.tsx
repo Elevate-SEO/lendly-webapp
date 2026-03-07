@@ -23,7 +23,7 @@ export default function Login() {
      alert(res.data.message);
     localStorage.setItem("user", JSON.stringify(res.data));
 
-     navigate("/");
+     navigate("/home");
     }
     catch(err)
     {

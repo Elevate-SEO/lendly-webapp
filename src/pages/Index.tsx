@@ -97,30 +97,152 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Listings */}
-      <section className="container py-10">
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="font-heading text-2xl font-bold">Browse Rentals</h2>
-          <Button variant="ghost" className="gap-1 text-primary">
-            View All <ArrowRight className="h-4 w-4" />
-          </Button>
-        </div>
+      <section className="container py-24">
+  <div className="text-center mb-16">
+    <h2 className="text-4xl font-bold mb-4">Why Choose Lendly?</h2>
+    <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+      Lendly connects people who need items with those who own them,
+      creating a trusted community for sharing resources efficiently.
+    </p>
+  </div>
 
-        <CategoryFilter active={category} onChange={setCategory} />
+  <div className="grid gap-10 md:grid-cols-3">
 
-        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filtered.map((item) => (
-            <ItemCard key={item.id} item={item} />
-          ))}
-        </div>
+    <div className="p-8 border rounded-2xl text-center bg-card hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+      <div className="w-14 h-14 flex items-center justify-center rounded-full bg-blue-100 mx-auto mb-5">
+        <Shield className="h-7 w-7 text-blue-600" />
+      </div>
 
-        {filtered.length === 0 && (
-          <div className="py-20 text-center text-muted-foreground">
-            <p className="text-lg">No items found. Try a different search or category.</p>
+      <h3 className="font-semibold text-xl mb-2">Secure Transactions</h3>
+
+      <p className="text-muted-foreground text-sm leading-relaxed">
+        Payments are protected through escrow to ensure safety for both
+        lenders and borrowers.
+      </p>
+    </div>
+
+    <div className="p-8 border rounded-2xl text-center bg-card hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+      <div className="w-14 h-14 flex items-center justify-center rounded-full bg-green-100 mx-auto mb-5">
+        <MapPin className="h-7 w-7 text-green-600" />
+      </div>
+
+      <h3 className="font-semibold text-xl mb-2">Local Community</h3>
+
+      <p className="text-muted-foreground text-sm leading-relaxed">
+        Discover items available nearby and connect with trusted people
+        within your local community.
+      </p>
+    </div>
+
+    <div className="p-8 border rounded-2xl text-center bg-card hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+      <div className="w-14 h-14 flex items-center justify-center rounded-full bg-purple-100 mx-auto mb-5">
+        <Search className="h-7 w-7 text-purple-600" />
+      </div>
+
+      <h3 className="font-semibold text-xl mb-2">Easy Discovery</h3>
+
+      <p className="text-muted-foreground text-sm leading-relaxed">
+        Quickly search and filter thousands of items available for rent.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+        <section className="bg-muted/30 py-24 border-y">
+          <div className="container">
+
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-3">How Lendly Works</h2>
+              <p className="text-muted-foreground text-lg">
+                Renting and lending items is simple and secure.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-12">
+
+              <div className="text-center">
+                <div className="w-16 h-16 flex items-center justify-center bg-blue-600 text-white rounded-full mx-auto mb-6 text-xl font-bold shadow-lg">
+                  1
+                </div>
+
+                <h3 className="font-semibold text-xl mb-2">Find an Item</h3>
+
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  Search for cameras, tools, bikes, and more available from people
+                  near your location.
+                </p>
+              </div>
+
+              <div className="text-center">
+                <div className="w-16 h-16 flex items-center justify-center bg-blue-600 text-white rounded-full mx-auto mb-6 text-xl font-bold shadow-lg">
+                  2
+                </div>
+
+                <h3 className="font-semibold text-xl mb-2">Book Securely</h3>
+
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  Choose rental dates and confirm booking with our secure payment
+                  system.
+                </p>
+              </div>
+
+              <div className="text-center">
+                <div className="w-16 h-16 flex items-center justify-center bg-blue-600 text-white rounded-full mx-auto mb-6 text-xl font-bold shadow-lg">
+                  3
+                </div>
+
+                <h3 className="font-semibold text-xl mb-2">Borrow & Return</h3>
+
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  Pick up the item, use it for your needs, and return it safely
+                  after your rental period.
+                </p>
+              </div>
+
+            </div>
+
           </div>
-        )}
-      </section>
+        </section>
 
+
+      <section className="py-24">
+  <div className="container">
+
+    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-14 text-center shadow-xl">
+
+      <h2 className="text-4xl font-bold text-white mb-4">
+        Start Sharing Today
+      </h2>
+
+      <p className="max-w-xl mx-auto mb-8 text-white/90 text-lg">
+        Join the Lendly community today and start renting items from
+        trusted people near you or earn money by lending your own.
+      </p>
+
+      <div className="flex justify-center gap-5 flex-wrap">
+
+        <Button
+          size="lg"
+          className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-5 rounded-xl"
+        >
+          <a href="/list">Browse Rentals</a>
+        </Button>
+
+        <Button
+          size="lg"
+          className="bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-5 rounded-xl shadow-md"
+        >
+          Add Your Item
+        </Button>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
       <Footer />
     </div>
   );

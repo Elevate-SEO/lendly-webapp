@@ -8,6 +8,8 @@ import ItemDetail from "./pages/ItemDetail";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import List from "./pages/List";
+import Add from "./pages/Add";
 
 const queryClient = new QueryClient();
 
@@ -18,11 +20,13 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/home" element={<Index />} />
           <Route path="/item/:id" element={<ItemDetail />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/list" element={<List />} />
+          <Route path="/add" element={<Add />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

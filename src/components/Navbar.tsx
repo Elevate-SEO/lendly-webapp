@@ -4,16 +4,18 @@ import { Menu, X, Search, Bell, MessageCircle, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { log } from "console";
+import { useNavigate } from "react-router-dom";
 
 const navLinks = [
-  { label: "Browse", path: "/" },
-  { label: "List an Item", path: "/list" },
-  { label: "How It Works", path: "/how-it-works" },
+  { label: "Browse", path: "/home" },
+  { label: "Products", path: "/list" },
+  { label: "Add Item", path: "/add" },
 ];
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -47,25 +49,44 @@ const Navbar = () => {
         </nav>
 
         {/* Desktop Actions */}
-        <div className="hidden items-center gap-2 md:flex">
-          {/* <Button variant="ghost" size="icon" className="text-muted-foreground">
-            <Search className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon" className="text-muted-foreground">
-            <Bell className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon" className="text-muted-foreground">
-            <MessageCircle className="h-5 w-5" />
-          </Button> */}
-          {user ? (
-           <h3 className="font-bold text-2xl">{user.user.username}</h3>
-          ) : (
-            <Button size="sm" className="ml-2 gap-2">
-              <User className="h-4 w-4" />
-              <a href="/login">Sign In</a>
-            </Button>
-          )}
-        </div>
+<div className="relative group">
+  {user ? (
+    <>
+      <h3 className="font-bold text-2xl rounded-lg cursor-pointer">
+        {user.user.username}
+      </h3>
+
+      {/* Dropdown Menu */}
+      <div className="absolute right-[-20px] mt-2 w-32 bg-white border rounded shadow-md 
+                      opacity-0 group-hover:opacity-100 invisible group-hover:visible 
+                      transition-all duration-200">
+
+        <a
+          href="/profile"
+          className="block px-4 py-2 text-2 hover:bg-gray-100 text-center font-bold"
+        >
+          Profile
+        </a>
+
+        <button
+          onClick={() => {
+            localStorage.removeItem("user");
+            navigate("/login");
+          }}
+          className="block w-full text-2 px-4 py-2 bg-red-500 text-sm hover:bg-red-600 text-white rounded-b text-center font-bold"
+        >
+          Logout
+        </button>
+
+      </div>
+    </>
+  ) : (
+    <Button size="sm" className="ml-2 gap-2">
+      <User className="h-4 w-4" />
+      <a href="/login">Sign In</a>
+    </Button>
+  )}
+</div>
 
         {/* Mobile Toggle */}
         <Button
