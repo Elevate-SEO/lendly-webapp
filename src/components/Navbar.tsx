@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Search, Bell, MessageCircle, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import { log } from "console";
 
 const navLinks = [
   { label: "Browse", path: "/" },
@@ -14,6 +15,9 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
+    const user = JSON.parse(localStorage.getItem("user"));
+
+  console.log("Current user:", user.user.username);
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-xl">
       <div className="container flex h-16 items-center justify-between">
@@ -44,7 +48,7 @@ const Navbar = () => {
 
         {/* Desktop Actions */}
         <div className="hidden items-center gap-2 md:flex">
-          <Button variant="ghost" size="icon" className="text-muted-foreground">
+          {/* <Button variant="ghost" size="icon" className="text-muted-foreground">
             <Search className="h-5 w-5" />
           </Button>
           <Button variant="ghost" size="icon" className="text-muted-foreground">
@@ -52,11 +56,15 @@ const Navbar = () => {
           </Button>
           <Button variant="ghost" size="icon" className="text-muted-foreground">
             <MessageCircle className="h-5 w-5" />
-          </Button>
-          <Button size="sm" className="ml-2 gap-2">
-            <User className="h-4 w-4" />
-            Sign In
-          </Button>
+          </Button> */}
+          {user ? (
+           <h3 className="font-bold text-2xl">{user.user.username}</h3>
+          ) : (
+            <Button size="sm" className="ml-2 gap-2">
+              <User className="h-4 w-4" />
+              <a href="/login">Sign In</a>
+            </Button>
+          )}
         </div>
 
         {/* Mobile Toggle */}
@@ -94,10 +102,14 @@ const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
-              <Button size="sm" className="mt-2 gap-2">
-                <User className="h-4 w-4" />
-                Sign In
-              </Button>
+             {user ? (
+           <h3 className="text-center font-bold text-2xl">{user.user.username}</h3>
+          ) : (
+            <Button size="sm" className="ml-2 gap-2">
+              <User className="h-4 w-4" />
+              <a href="/login">Sign In</a>
+            </Button>
+          )}
             </nav>
           </motion.div>
         )}
