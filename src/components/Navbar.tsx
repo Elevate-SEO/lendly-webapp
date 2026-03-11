@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { log } from "console";
 import { useNavigate } from "react-router-dom";
+import Profile from "@/pages/Profile";
 
 const navLinks = [
-  { label: "Browse", path: "/home" },
+  { label: "About", path: "/home" },
   { label: "Products", path: "/list" },
   { label: "Add Item", path: "/add" },
 ];
@@ -24,7 +25,7 @@ const Navbar = () => {
     <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-xl">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/home" className="flex items-center gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
             <span className="font-heading text-lg font-bold text-primary-foreground">L</span>
           </div>
@@ -71,7 +72,7 @@ const Navbar = () => {
         <button
           onClick={() => {
             localStorage.removeItem("user");
-            navigate("/login");
+            navigate("/");
           }}
           className="block w-full text-2 px-4 py-2 bg-red-500 text-sm hover:bg-red-600 text-white rounded-b text-center font-bold"
         >

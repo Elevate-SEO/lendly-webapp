@@ -10,7 +10,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import List from "./pages/List";
 import Add from "./pages/Add";
-
+import Profile from "./pages/Profile";
+import Admin from "./pages/Admin";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -27,6 +28,8 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
           <Route path="/list" element={<List />} />
           <Route path="/add" element={<Add />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

@@ -59,13 +59,15 @@ const ItemCard = ({ item }: { item: ItemData }) => {
             {item.location}
           </div>
           <div className="mb-3 flex items-center gap-2">
-            <RatingStars rating={item.rating} size={12} />
-            <span className="text-xs text-muted-foreground">({item.reviews})</span>
+            {/* <RatingStars rating={item.rating} size={12} /> */}
+            {/* <span className="text-xs text-muted-foreground">({item.reviews})</span> */}
           </div>
           <div className="flex items-center justify-between">
             <div>
               <span className="font-heading text-lg font-bold text-primary">₹{item.price}</span>
-              <span className="text-xs text-muted-foreground">/{item.period}</span>
+              <span className="text-xs text-muted-foreground ">/{item.period}</span>
+              <span className="text-xs text-muted-foreground">Owner: {item.owner}</span>
+              <span className="text-xs text-muted-foreground">{item.description}</span>
             </div>
             {item.ownerBadge && <TrustBadge level={item.ownerBadge} />}
           </div>
