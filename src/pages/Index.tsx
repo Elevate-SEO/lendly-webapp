@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, MapPin, Shield, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,13 +9,30 @@ import ItemCard from "@/components/ItemCard";
 import CategoryFilter from "@/components/CategoryFilter";
 import TrustBadge from "@/components/TrustBadge";
 import heroImage from "@/assets/hero-lendly.jpg";
-import { mockItems } from "@/data/mockItems";
+import axios from "axios";
 
 const Index = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
+  const [items, setItems] = useState<any[]>([]);
 
-  const filtered = mockItems.filter((item) => {
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/products")
+      .then((res) => {
+        setItems(res.data.products.map((p: any) => ({
+          ...p,
+          id: p._id,
+          ownerName: p.owner,
+          condition: p.condition || "Good",
+          rating: 0,
+          reviews: 0,
+          ownerBadge: undefined,
+        })));
+      })
+      .catch(() => {});
+  }, []);
+
+  const filtered = items.filter((item) => {
     const matchCat = category === "all" || item.category === category;
     const matchSearch =
       !search || item.title.toLowerCase().includes(search.toLowerCase()) || item.location.toLowerCase().includes(search.toLowerCase());

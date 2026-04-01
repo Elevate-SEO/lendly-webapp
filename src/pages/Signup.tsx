@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { log } from "console";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -61,8 +60,8 @@ export default function Signup() {
      console.log(res.data);
      alert(res.data.message);
       navigate("/login");
-    } catch (err) {
-      setError("Something went wrong. Try again.");
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Something went wrong. Try again.");
     } finally {
       setLoading(false);
     }
@@ -86,18 +85,15 @@ export default function Signup() {
 
           <div>
             <label className="block text-sm mb-1">Full Name</label>
-            <div>
-  <label className="block text-sm mb-1">Full Name</label>
-  <input
-    type="text"
-    name="username"
-    placeholder="John Doe"
-    value={formData.username}
-    onChange={handleChange}
-    className="w-full border px-3 py-2 rounded outline-none focus:ring-1 focus:ring-blue-500"
-    required
-  />
-</div>
+            <input
+              type="text"
+              name="username"
+              placeholder="John Doe"
+              value={formData.username}
+              onChange={handleChange}
+              className="w-full border px-3 py-2 rounded outline-none focus:ring-1 focus:ring-blue-500"
+              required
+            />
           </div>
 
           <div>

@@ -1,26 +1,29 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Search, Bell, MessageCircle, User } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, Bell, User, Package, LogOut, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { log } from "console";
-import { useNavigate } from "react-router-dom";
-import Profile from "@/pages/Profile";
 
 const navLinks = [
-  { label: "About", path: "/home" },
-  { label: "Products", path: "/list" },
+  { label: "Browse", path: "/list" },
   { label: "Add Item", path: "/add" },
 ];
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
-    const user = JSON.parse(localStorage.getItem("user"));
+  const raw = localStorage.getItem("user");
+  const user = raw ? JSON.parse(raw) : null;
+  const username = user?.user?.username ?? null;
 
-  console.log("Current user:", user.user.username);
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/");
+  };
+
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-xl">
       <div className="container flex h-16 items-center justify-between">
@@ -50,44 +53,83 @@ const Navbar = () => {
         </nav>
 
         {/* Desktop Actions */}
-<div className="relative group">
-  {user ? (
-    <>
-      <h3 className="font-bold text-2xl rounded-lg cursor-pointer">
-        {user.user.username}
-      </h3>
+        <div className="hidden items-center gap-2 md:flex">
+          {username ? (
+            <>
+              {/* Notification Bell */}
+              <Link
+                to="/profile"
+                className="relative flex h-9 w-9 items-center justify-center rounded-full hover:bg-muted transition-colors"
+                title="Notifications"
+              >
+                <Bell className="h-4 w-4 text-muted-foreground" />
+              </Link>
 
-      {/* Dropdown Menu */}
-      <div className="absolute right-[-20px] mt-2 w-32 bg-white border rounded shadow-md 
-                      opacity-0 group-hover:opacity-100 invisible group-hover:visible 
-                      transition-all duration-200">
+              {/* User Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-sm font-semibold hover:bg-muted transition-colors"
+                >
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                    {username.charAt(0).toUpperCase()}
+                  </div>
+                  {username}
+                </button>
 
-        <a
-          href="/profile"
-          className="block px-4 py-2 text-2 hover:bg-gray-100 text-center font-bold"
-        >
-          Profile
-        </a>
-
-        <button
-          onClick={() => {
-            localStorage.removeItem("user");
-            navigate("/");
-          }}
-          className="block w-full text-2 px-4 py-2 bg-red-500 text-sm hover:bg-red-600 text-white rounded-b text-center font-bold"
-        >
-          Logout
-        </button>
-
-      </div>
-    </>
-  ) : (
-    <Button size="sm" className="ml-2 gap-2">
-      <User className="h-4 w-4" />
-      <a href="/login">Sign In</a>
-    </Button>
-  )}
-</div>
+                <AnimatePresence>
+                  {dropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 mt-2 w-44 rounded-xl border border-border bg-card shadow-lg py-1 z-50"
+                    >
+                      <Link
+                        to="/profile"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-muted transition-colors"
+                      >
+                        <User className="h-4 w-4" /> Profile
+                      </Link>
+                      <Link
+                        to="/my-bookings"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-muted transition-colors"
+                      >
+                        <Package className="h-4 w-4" /> My Bookings
+                      </Link>
+                      <Link
+                        to="/admin"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-muted transition-colors"
+                      >
+                        <LayoutDashboard className="h-4 w-4" /> Admin
+                      </Link>
+                      <div className="my-1 border-t border-border" />
+                      <button
+                        onClick={() => { setDropdownOpen(false); handleLogout(); }}
+                        className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        <LogOut className="h-4 w-4" /> Logout
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </>
+          ) : (
+            <div className="flex gap-2">
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/login">Sign In</Link>
+              </Button>
+              <Button size="sm" asChild>
+                <Link to="/signup">Sign Up</Link>
+              </Button>
+            </div>
+          )}
+        </div>
 
         {/* Mobile Toggle */}
         <Button
@@ -124,14 +166,26 @@ const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
-             {user ? (
-           <h3 className="text-center font-bold text-2xl">{user.user.username}</h3>
-          ) : (
-            <Button size="sm" className="ml-2 gap-2">
-              <User className="h-4 w-4" />
-              <a href="/login">Sign In</a>
-            </Button>
-          )}
+              {username ? (
+                <>
+                  <Link to="/profile" onClick={() => setMobileOpen(false)} className="rounded-lg px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-muted">
+                    Profile
+                  </Link>
+                  <Link to="/my-bookings" onClick={() => setMobileOpen(false)} className="rounded-lg px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-muted">
+                    My Bookings
+                  </Link>
+                  <button
+                    onClick={() => { setMobileOpen(false); handleLogout(); }}
+                    className="rounded-lg px-4 py-3 text-sm font-medium text-red-600 text-left hover:bg-red-50"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <Link to="/login" onClick={() => setMobileOpen(false)} className="rounded-lg px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-muted">
+                  Sign In
+                </Link>
+              )}
             </nav>
           </motion.div>
         )}

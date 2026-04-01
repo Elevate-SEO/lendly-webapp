@@ -9,12 +9,20 @@ import axios from "axios";
 
 interface Product {
   _id: string;
+  id: string;
   title: string;
   price: number;
+  period: string;
   location: string;
   image: string;
   category: string;
   description: string;
+  owner: string;
+  ownerName: string;
+  condition: string;
+  rating: number;
+  reviews: number;
+  ownerBadge: undefined;
 }
 
 export default function List() {
@@ -33,7 +41,16 @@ export default function List() {
 
         const res = await axios.get("http://localhost:3000/api/products");
 
-        setProducts(res.data.products);
+        const mapped = res.data.products.map((p: any) => ({
+          ...p,
+          id: p._id,
+          ownerName: p.owner,
+          condition: p.condition || "Good",
+          rating: 0,
+          reviews: 0,
+          ownerBadge: undefined,
+        }));
+        setProducts(mapped);
 
       } catch (error) {
 

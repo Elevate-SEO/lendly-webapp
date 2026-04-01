@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import ItemDetail from "./pages/ItemDetail";
 import NotFound from "./pages/NotFound";
@@ -12,6 +13,9 @@ import List from "./pages/List";
 import Add from "./pages/Add";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
+import MyBookings from "./pages/MyBookings";
+import Handover from "./pages/Handover";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -21,15 +25,24 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/home" element={<Index />} />
-          <Route path="/item/:id" element={<ItemDetail />} />
+          {/* Public */}
           <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+
+          {/* Protected */}
+          <Route path="/home" element={<ProtectedRoute><Index /></ProtectedRoute>} />
+          <Route path="/list" element={<ProtectedRoute><List /></ProtectedRoute>} />
+          <Route path="/item/:id" element={<ProtectedRoute><ItemDetail /></ProtectedRoute>} />
+          <Route path="/add" element={<ProtectedRoute><Add /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/my-bookings" element={<ProtectedRoute><MyBookings /></ProtectedRoute>} />
+          <Route path="/handover/:bookingId" element={<ProtectedRoute><Handover /></ProtectedRoute>} />
+          <Route path="/handover" element={<ProtectedRoute><Handover /></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+
+          {/* 404 */}
           <Route path="*" element={<NotFound />} />
-          <Route path="/list" element={<List />} />
-          <Route path="/add" element={<Add />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/admin" element={<Admin />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
